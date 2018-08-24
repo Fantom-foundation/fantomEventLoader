@@ -1,14 +1,5 @@
 const axios = require('axios');
-var pgp = require('pg-promise')(/*options*/)
-
-var cn = {
-  host: 'localhost',
-  port: 5432,
-  database: 'fantom',
-  user: 'postgres',
-  password: 'ert123iop123ert'
-}
-var db = pgp(cn)
+const db = require('./helpers/db.js').db;
 
 getLatestRound()
 
