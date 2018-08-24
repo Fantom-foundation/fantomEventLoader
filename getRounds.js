@@ -47,7 +47,7 @@ function insertRound(index, round) {
     index, round
   ])
   .then(() => {
-    console.log(index+" inserted")
+    setTimeout(getLatestRound, 500)
   })
   .catch((err) => {
     console.log(err)
