@@ -5,7 +5,7 @@ const async = require("async");
 getConsensusEvents()
 
 function getConsensusEvents() {
-  axios.get('http://18.191.184.199:8000/consensusevents/')
+  axios.get('http://18.191.184.199:8000/consensusevents')
   .then((response) => {
     async.mapLimit(response, 10, (event, callback) => {insertConsensusEvent(event, callback)}, function(err, results) {
       setTimeout(getConsensusEvents, 500)
