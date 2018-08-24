@@ -15,7 +15,7 @@ function getLatestRound() {
 }
 
 function getLatestSavedRound(latestRound) {
-  db.oneOrNone('select max(round_number) as latest_saved_round from rounds;')
+  db.oneOrNone('select max(round_number)+1 as latest_saved_round from rounds;')
   .then((round) => {
     getNewRounds(round.latest_saved_round, latestRound)
   })
@@ -28,13 +28,18 @@ function getNewRounds(latestSavedRound, latestRound) {
   if(typeof latestSavedRound == 'undefined' || latestSavedRound == null) {
     latestSavedRound = 0
   }
-  var rounds[]
-  for(var i = latestSavedRound; i <= latestRound;  i++) {
-    rounds.push(i)
+  if (latestSavedRound == latestRound) {
+    setTimeout(getLatestRound, 1000)
+  } else {
+    var rounds = []
+    for(var i = latestSavedRound; i < latestRound;  i++) {
+      rounds.push(i)
+    }
+    async.map(rounds, (round, callback) => {getRound(round, callback)}, function(err, results) {
+      setTimeout(getLatestRound, 500)
+    });
   }
-  async.map(rounds, (round, callback) => {getRound(round, callback)}, function(err, results) {
-    setTimeout(getLatestRound, 500)
-  });
+  
 }
 
 function getRound(index, callback) {

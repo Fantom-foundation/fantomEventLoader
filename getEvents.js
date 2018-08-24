@@ -6,7 +6,6 @@ getConsensusEvents()
 function getConsensusEvents() {
   axios.get('http://18.191.184.199:8000/consensusevents/')
   .then((response) => {
-    console.log(response.data)
     response.data.map(insertConsensusEvent)
   })
   .catch((error) => {
@@ -19,7 +18,7 @@ function insertConsensusEvent(event) {
     event
   ])
   .then(() => {
-    console.log(event+" inserted")
+    setTimeout(getConsensusEvents, 500)
   })
   .catch((err) => {
     console.log(err)
