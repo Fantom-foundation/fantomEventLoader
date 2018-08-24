@@ -1,5 +1,6 @@
 const axios = require('axios');
 const db = require('./helpers/db.js').db;
+const async = require("async");
 
 getLatestRound()
 
@@ -27,29 +28,35 @@ function getNewRounds(latestSavedRound, latestRound) {
   if(typeof latestSavedRound == 'undefined' || latestSavedRound == null) {
     latestSavedRound = 0
   }
+  var rounds[]
   for(var i = latestSavedRound; i <= latestRound;  i++) {
-    getRound(i)
+    rounds.push(i)
   }
-}
-
-function getRound(index) {
-  axios.get('http://18.191.184.199:8000/round/'+index)
-  .then((response) => {
-    insertRound(index, response.data)
-  })
-  .catch((error) => {
-    console.log(error);
+  async.map(rounds, (round, callback) => {getRound(round, callback)}, function(err, results) {
+    setTimeout(getLatestRound, 500)
   });
 }
 
-function insertRound(index, round) {
+function getRound(index, callback) {
+  axios.get('http://18.191.184.199:8000/round/'+index)
+  .then((response) => {
+    insertRound(index, response.data, callback)
+  })
+  .catch((error) => {
+    console.log(error);
+    callback(error, false)
+  });
+}
+
+function insertRound(index, round, callback) {
   db.none('insert into rounds (round_number, payload) values ($1, $2);', [
     index, round
   ])
   .then(() => {
-    setTimeout(getLatestRound, 500)
+    callback(null, true)
   })
   .catch((err) => {
     console.log(err)
+    callback(error, false)
   })
 }
