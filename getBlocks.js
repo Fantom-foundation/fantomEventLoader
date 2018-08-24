@@ -35,7 +35,7 @@ function getNewBlocks(latestSavedBlock, latestBlock) {
     for(var i = latestSavedBlock; i < latestBlock;  i++) {
       blocks.push(i)
     }
-    async.map(blocks, (block, callback) => {getBlock(block, callback)}, function(err, results) {
+    async.mapLimit(blocks, 10, (block, callback) => {getBlock(block, callback)}, function(err, results) {
       setTimeout(getLatestBlock, 500)
     });
   }

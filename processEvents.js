@@ -7,7 +7,7 @@ getConsensusEvents()
 function getConsensusEvents() {
   db.manyOrNone('select * from consensus_events where processed is not true;')
   .then((response) => {
-    async.map(response, (event, callback) => {getEvent(event, callback)}, function(err, results) {
+    async.mapLimit(response, 10, (event, callback) => {getEvent(event, callback)}, function(err, results) {
       setTimeout(getConsensusEvents, 500)
     });
   })

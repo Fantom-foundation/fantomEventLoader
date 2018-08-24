@@ -35,7 +35,7 @@ function getNewRounds(latestSavedRound, latestRound) {
     for(var i = latestSavedRound; i < latestRound;  i++) {
       rounds.push(i)
     }
-    async.map(rounds, (round, callback) => {getRound(round, callback)}, function(err, results) {
+    async.mapLimit(rounds, 10, (round, callback) => {getRound(round, callback)}, function(err, results) {
       setTimeout(getLatestRound, 500)
     });
   }
