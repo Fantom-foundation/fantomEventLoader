@@ -12,10 +12,11 @@ function getBlockById(id) {
     response.data.transactions.map((t) => {insertTransaction(t,response.data.hash)})
   })
   .catch((err) => {
-    console.log(err)
     console.log(err.response.data)
     if (err.response.data == 'leveldb: not found\n') {
-      setTimeout(getBlockById(id), 2000)
+      setTimeout(function() {getBlockById(id)}, 2000)
+    } else {
+      console.log(err)
     }
   })
 }
