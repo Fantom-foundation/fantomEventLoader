@@ -10,7 +10,6 @@ function getBlockById(id) {
   axios.get('http://18.216.137.183:8080/blockById/'+id)
   .then((response) => {
     insertBlock(response.data)
-    console.log(response)
     response.data.transactions.map((t) => {insertTransaction(t,response.data.hash)})
   })
   .catch((err) => {
