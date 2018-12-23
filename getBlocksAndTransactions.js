@@ -4,16 +4,25 @@ const async = require("async");
 
 getLatestSavedBlock()
 
+var track = 0
+
 function getBlockById(id) {
   axios.get('http://18.216.137.183:8080/blockById/'+id)
   .then((response) => {
     insertBlock(response.data)
+    console.log(response)
     response.data.transactions.map((t) => {insertTransaction(t,response.data.hash)})
   })
   .catch((err) => {
     console.log(err.response.data)
     if (err.response.data == 'leveldb: not found\n') {
-      setTimeout(function() {getBlockById(id)}, 2000)
+      track++
+      if (track >= 3) {
+        track = 0;
+        setTimeout(function() {getBlockById(++id)}, 2000)
+      } else {
+        setTimeout(function() {getBlockById(id)}, 2000)
+      }
     } else {
       console.log(err)
     }
