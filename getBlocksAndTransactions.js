@@ -7,7 +7,6 @@ getLatestSavedBlock()
 function getBlockById(id) {
   axios.get('http://18.216.137.183:8080/blockById/'+id)
   .then((response) => {
-    console.log(response.data)
     insertBlock(response.data)
     response.data.transactions.map((t) => {insertTransaction(t,response.data.hash)})
   })
@@ -36,7 +35,6 @@ function insertBlock(block) {
     block.hash, block.index, block.round, block
   ])
   .then(() => {
-    console.log(block.hash+" inserted")
     getBlockById(block.index+1)
   })
   .catch((err) => {
@@ -48,7 +46,6 @@ function insertTransaction(t, hash) {
     t.transactionHash, t.root, t.from, t.to, t.value, t.gas, t.gasUsed, t.gasPrice, t.cumulativeGasUsed, t.contractAddress, t.logsBloom, t.error, t.failed, t.status, hash
   ])
   .then(() => {
-    console.log(t.transactionHash+" inserted")
   })
   .catch((err) => {
     console.log(err)
