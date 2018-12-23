@@ -5,7 +5,7 @@ const async = require("async");
 getLatestSavedBlock()
 
 function getBlockById(id) {
-  axios.get('http://18.220.64.32:8080/blockById/'+id)
+  axios.get('http://18.216.137.183:8080/blockById/'+id)
   .then((response) => {
     console.log(response.data)
     insertBlock(response.data)
@@ -13,6 +13,10 @@ function getBlockById(id) {
   })
   .catch((err) => {
     console.log(err)
+    console.log(err.response.data)
+    if (err.response.data == 'leveldb: not found\n') {
+      setTimeout(getBlockById(id), 2000)
+    }
   })
 }
 

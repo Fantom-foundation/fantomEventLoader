@@ -32,3 +32,46 @@ create table accounts (
 	balance char(22),
 	nonce numeric
 )
+
+/* go-lachesis */
+/stats/
+/participants/
+/events/
+/consensus_events/
+/rounds/
+/round_witnesses/
+/round_events/
+/block/
+
+/* go-evm */
+/account/{address}
+/accounts/ /* Controlled by node */
+/block/{hash}
+/blockById/{id}
+/tx/{tx_hash}
+
+
+drop table blocks;
+create table blocks (
+hash varchar(100) primary key,
+index numeric,
+round numeric,
+payload json
+)
+
+create table transactions (
+hash varchar(100) primary key,
+root varchar(100),
+"from" varchar(100),
+"to" varchar(100),
+value numeric,
+gas numeric,
+used numeric,
+price numeric,
+cumulative numeric,
+contract varchar(100),
+logsBloom text,
+error varchar(100),
+failed boolean,
+status numeric
+)
