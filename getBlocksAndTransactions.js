@@ -14,7 +14,8 @@ function getBlockById(id) {
   })
   .catch((err) => {
     console.log(err.response.data)
-    if (err.response.data == 'leveldb: not found\n') {
+    if (err.response.data == 'leveldb: not found\n' ||
+        err.response.data == 'rlp: expected input list for types.txdata\n') {
       track++
       if (track >= 3) {
         track = 0;
