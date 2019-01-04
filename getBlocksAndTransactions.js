@@ -7,6 +7,7 @@ getLatestSavedBlock()
 var track = 0
 
 function getBlockById(id) {
+  console.log(id)
   axios.get('http://18.216.137.183:8080/blockById/'+id)
   .then((response) => {
     insertBlock(response.data)
