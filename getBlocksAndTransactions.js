@@ -24,8 +24,7 @@ function getBlockById(id) {
     if (err.response.data == 'leveldb: not found\n' ||
         err.response.data == 'rlp: expected input list for types.txdata\n') {
       track++
-      if (track >= 3) {
-        track = 0;
+      if (track >= 2) {
         setTimeout(function() {getBlockById(++id)}, 2000)
       } else {
         setTimeout(function() {getBlockById(id)}, 2000)
