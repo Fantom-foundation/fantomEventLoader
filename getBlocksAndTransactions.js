@@ -40,8 +40,8 @@ function getLatestSavedBlock() {
 }
 
 function insertBlock(block) {
-  db.none('insert into blocks (hash, index, round, payload) values ($1, $2, $3, $4);', [
-    block.hash, block.index, block.round, block
+  db.none('insert into blocks (hash, index, round, payload, created) values ($1, $2, $3, $4, $5);', [
+    block.hash, block.index, block.round, block, block.createdTime
   ])
   .then(() => {
     getBlockById(block.index+1)
