@@ -23,7 +23,7 @@ function getBlockById(id) {
     console.log(err.response.data)
     if (err.response.data == 'leveldb: not found\n' ||
         err.response.data == 'rlp: expected input list for types.txdata\n') {
-      setTimeout(function() {getBlockById(++id)}, 500)
+      setTimeout(function() {getBlockById(id)}, 500)
     } else {
       console.log(err)
     }
