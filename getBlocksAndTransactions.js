@@ -5,6 +5,8 @@ const async = require("async");
 getLatestSavedBlock()
 
 var track = 0
+var errorBlock = 0
+var errorCount = 0
 
 function getBlockById(id) {
   console.log(id)
@@ -23,6 +25,17 @@ function getBlockById(id) {
     console.log(err.response.data)
     if (err.response.data == 'leveldb: not found\n' ||
         err.response.data == 'rlp: expected input list for types.txdata\n') {
+      if (errorBlock != id) {
+        errorBlock = id
+        errorCount = 1
+      }
+      if (errorCount == 3) {
+        id++
+        errorCount = 0
+      }
+      if (errorBlock == id) {
+        errorCount++
+      }
       setTimeout(function() {getBlockById(id)}, 500)
     } else {
       console.log(err)
